@@ -3,12 +3,10 @@ const sinon = require('sinon');
 const productsModel = require('../../../models/products');
 const productsService = require('../../../services/products');
 
-const product = [
-  {
+const product = {
     id: 1,
     name: "Martelo de Thor"
-  }
-];
+};
 
 describe('Products Service', () => {
 

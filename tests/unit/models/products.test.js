@@ -24,7 +24,8 @@ describe('Products Model', () => {
   });
 
   describe('getById - Busca um produto específico pelo ID', () => {
-
+    beforeEach(() => sinon.restore());
+    
     describe('Quando o produto existe', () => {
       it('Retorna um objeto', async() => {
         const response = await productsModel.getById(1);
