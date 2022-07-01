@@ -1,3 +1,4 @@
+// const Joi = require('joi');
 const productsModel = require('../models/products');
 
 // Passo 2 - chama no services / faz validações
@@ -11,7 +12,13 @@ const getById = async (id) => {
   return product;
 };
 
+const create = async (name) => {
+  const product = await productsModel.create(name);
+  return product;
+};
+
 module.exports = {
   getAll,
   getById,
+  create,
 };

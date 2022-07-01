@@ -13,6 +13,7 @@ app.get('/', (_request, response) => {
 // Passo 4 - cria a rota e chama o middleware
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
+app.post('/products', productsController.create);
 
 // não remova essa exportação, é para o avaliador funcionar
 // você pode registrar suas rotas normalmente, como o exemplo acima
