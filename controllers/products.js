@@ -18,14 +18,15 @@ const getById = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const { name } = req.body;
-  const product = await productsService.create(name);
-  // if (product === null) {
-  //   return res.status(400).json({ message: '"name" is required' });
-  // }
-  // if (product.name.length < 5) {
-  //   return res.status(422).json({ message: '"name" length must be at least 5 characters long' });
-  // }
+  const value = await productsService.validateBody(req.body);
+  
+  if (value === null) return res.status(400).json({ message: '"name" is required' });
+  if (value.name.length < 5) {
+    return res.status(422).json({ message: '"name" length must be at least 5 characters long' });
+  }
+
+  const product = await productsService.create(value);
+
   res.status(201).json(product);
 };
 
