@@ -8,10 +8,12 @@ const product = {
     name: "Martelo de Thor"
 };
 
+const newProduct = { id: 1, name: "Novo Produto" };
+
 describe('Products Service', () => {
+  beforeEach(() => sinon.restore());
 
   describe('getAll - Lista todos os produtos cadastrados', () => {
-    beforeEach(() => sinon.restore());
 
     it('Verifica se é retornado um objeto', async () => {
       sinon.stub(productsModel, 'getAll').resolves(product);
@@ -39,6 +41,23 @@ describe('Products Service', () => {
 
         expect(response).to.include.all.keys('id', 'name');
       });
+    });
+  });
+
+  describe('create - Cadastra um produto novo', () => {
+
+    it('O produto é adicionado com sucesso', async () => {
+      sinon.stub(productsModel, 'query').resolves([newProduct]);
+      const response = await productsService.create('Novo Produto');
+
+      expect(response).to.be.equal(newProduct);
+    });
+  });
+
+  describe('validateBody - Valida as informações do body', () => {
+
+    it('', () => {
+
     });
   });
 });

@@ -29,17 +29,6 @@ const create = async ({ name }) => {
   return product;
 };
 
-// const validateName = (name) => {
-//   if (!name) throw new Error('"name" is required');
-//   if (name.length < 5) throw new Error('"name" length must be at least 5 characters long');
-// };
-
-// const isValid = (name) => {
-//   const isValidName = validateName(name);
-//   if (!isValidName) return false;
-//   return true;
-// };
-
 module.exports = {
   getAll,
   getById,

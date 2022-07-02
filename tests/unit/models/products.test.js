@@ -11,10 +11,10 @@ const product = [
 ];
 
 describe('Products Model', () => {
+  beforeEach(() => sinon.restore());
 
   describe('getAll - Lista os produtos cadastrados', () => {
-    beforeEach(() => sinon.restore());
-
+    
     it('Verifica se é retornado um objeto', async () => {
       sinon.stub(connection, 'execute').resolves(product);
       const response = await productsModel.getAll();
@@ -24,10 +24,10 @@ describe('Products Model', () => {
   });
 
   describe('getById - Busca um produto específico pelo ID', () => {
-    beforeEach(() => sinon.restore());
-    
+     
     describe('Quando o produto existe', () => {
-      it('Retorna um objeto', async() => {
+      
+      it('Retorna um objeto', async () => {
         const response = await productsModel.getById(1);
 
         expect(response).to.be.an('object');
@@ -42,6 +42,27 @@ describe('Products Model', () => {
 
         expect(response).to.include.all.keys('id', 'name');
       });
+    });
+  });
+
+  describe('create - Cadastra um produto novo', () => {
+    const teste = {
+      id: 1,
+      name: 'Novo Produto'
+    };
+
+    it('Retorna um objeto', async () => {
+      sinon.stub(connection, 'execute').resolves(teste);
+      const response = await productsModel.create('Novo Produto');
+
+      expect(response).to.be.an('object');
+    });
+
+    it('O objeto contem as informações: id, name', async () => {
+      sinon.stub(connection, 'execute').resolves(teste);
+      const response = await productsModel.create('Novo Produto');
+
+      expect(response).to.include.all.keys('id', 'name');
     });
   });
 });
