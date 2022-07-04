@@ -68,7 +68,7 @@ describe('Products Service', () => {
       const invalidData = { name: '' };
 
       expect(() => productsService.validateBody(invalidData))
-        .to.throws('"name" is not allowed to be empty');
+        .to.throws('"name" is required');
     });
   });
 });

@@ -1,13 +1,12 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
+const { ValidationError } = require('joi');
 const productsController = require('../../../controllers/products');
 const productsService = require('../../../services/products');
 
 const product = { id: 1, name: "Martelo de Thor" };
 const newProduct = { id: 1, name: 'Novo Produto' };
 const productNotFound = { message: 'Product not found' };
-const nameIsRequired = { message: '"name" is required' };
-const minLength = { message: '"name" length must be at least 5 characters long' };
 
 describe('Products Controller', () => {
   beforeEach(() => sinon.restore());
@@ -81,34 +80,15 @@ describe('Products Controller', () => {
       expect(res.json.calledWith(newProduct)).to.be.equal(true);
     });
 
-    it('É retornado um erro quando o "name" não é informado', async () => {
+    it('É retornado um erro quando o "name" é inválido', () => {
       const req = {};
       const res = {};
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub();
 
       req.body = {};
 
-      await productsController.create(req, res);
+      const response = productsController.create(req, res);
 
-      expect(res.status.calledWith(400)).to.be.equal(true);
-      expect(res.json.calledWith(nameIsRequired)).to.be.equal(true);
-    });
-
-    it('É retornado um erro quando o produto tem menos de 5 caracteres', async () => {
-      const req = {};
-      const res = {};
-
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub();
-
-      req.body = { name: 'a' };
-      
-      await productsController.create(req, res);
-
-      expect(res.status.calledWith(422)).to.be.equal(true);
-      expect(res.json.calledWith(minLength)).to.be.equal(true);
+      expect(response).to.rejectedWith(ValidationError);
     });
   });
 });
