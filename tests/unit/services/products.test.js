@@ -24,6 +24,7 @@ describe('Products Service', () => {
   describe('getById - Busca um produto específico pelo ID', () => {
 
     describe('Quando o produto existe', () => {
+      
       it('Retorna um objeto', async() => {
         const response = await productsService.getById(1);
 
