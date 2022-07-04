@@ -1,16 +1,17 @@
 const Joi = require('joi');
 const productsModel = require('../models/products');
 
-// Passo 2 - chama no services / faz validações
-
 const validateBody = (name) => {
   const schema = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.string().required().min(5),
+  }).messages({
+    'any.required': '{{#label}} is required',
+    'string.empty': '{{#label}} is required',
   });
-
-  const { error, value } = schema.validate(name);
-  if (error) return null;
   
+  const { error, value } = schema.validate(name);
+  if (error) throw error;
+
   return value;
 };
 

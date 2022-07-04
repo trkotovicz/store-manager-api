@@ -46,21 +46,28 @@ describe('Products Model', () => {
   });
 
   describe('create - Cadastra um produto novo', () => {
-    const teste = {
+    const mockTeste = {
       id: 1,
       name: 'Novo Produto'
     };
 
-    it('Retorna um objeto', async () => {
-      sinon.stub(connection, 'execute').resolves(teste);
-      const response = await productsModel.create('Novo Produto');
+    before(async () => {
+      const execute = [{ insertId: 1 }];
+      sinon.stub(connection, 'execute').resolves(execute)
+    });
 
-      expect(response).to.be.an('object');
+    after(async () => {
+      connection.execute.restore
+    });
+
+    it('Retorna um objeto', async () => {
+      const response = await productsModel.create(mockTeste);
+
+      expect(response).to.be.a('object');
     });
 
     it('O objeto contem as informações: id, name', async () => {
-      sinon.stub(connection, 'execute').resolves(teste);
-      const response = await productsModel.create('Novo Produto');
+      const response = await productsModel.create(mockTeste);
 
       expect(response).to.include.all.keys('id', 'name');
     });

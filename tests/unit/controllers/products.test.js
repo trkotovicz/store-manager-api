@@ -88,7 +88,7 @@ describe('Products Controller', () => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub();
 
-      req.body = { };
+      req.body = {};
 
       await productsController.create(req, res);
 

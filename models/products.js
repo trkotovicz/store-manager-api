@@ -1,6 +1,5 @@
 const connection = require('./connection');
 
-// Passo 1 - cria o model (query)
 const getAll = async () => {
   const query = 'SELECT * FROM StoreManager.products';
   const [products] = await connection.execute(query);

@@ -1,14 +1,12 @@
-const { expect } = require('chai');
+const { expect, use } = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
 const productsModel = require('../../../models/products');
 const productsService = require('../../../services/products');
 
-const product = {
-    id: 1,
-    name: "Martelo de Thor"
-};
+use(chaiAsPromised);
 
-const newProduct = { id: 1, name: "Novo Produto" };
+const product = { id: 1, name: "Martelo de Thor" };
 
 describe('Products Service', () => {
   beforeEach(() => sinon.restore());
@@ -45,19 +43,32 @@ describe('Products Service', () => {
   });
 
   describe('create - Cadastra um produto novo', () => {
+    const newProduct = { name: "Novo Produto" };
+
+    before(async () => {
+      const ID = 1;
+      sinon.stub(productsModel, 'create').resolves({ id: ID })
+    });
+    after(async () => productsModel.create.restore);
+
+    it('Retorna um objeto', async () => {
+      const response = await productsService.create(newProduct);
+      expect(response).to.be.a('object');
+    });
 
     it('O produto é adicionado com sucesso', async () => {
-      sinon.stub(productsModel, 'query').resolves([newProduct]);
-      const response = await productsService.create('Novo Produto');
-
-      expect(response).to.be.equal(newProduct);
+      const response = await productsService.create(newProduct);
+      expect(response).to.include.all.keys('id', 'name');
     });
   });
 
   describe('validateBody - Valida as informações do body', () => {
 
-    it('', () => {
+    it('Ao mandar um objeto inválido retorna um erro', () => {
+      const invalidData = { name: '' };
 
+      expect(() => productsService.validateBody(invalidData))
+        .to.throws('"name" is not allowed to be empty');
     });
   });
 });
