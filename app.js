@@ -2,6 +2,7 @@ const express = require('express');
 require('express-async-errors');
 
 const productsController = require('./controllers/products');
+const salesController = require('./controllers/sales');
 const error = require('./middlewares/error');
 
 const app = express();
@@ -11,12 +12,16 @@ app.use(express.json());
 app.get('/', (_request, response) => {
   response.send();
 });
-
-// Passo 4 - cria a rota e chama o middleware
+// products
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.post('/products', productsController.create);
 
+// sales
+app.get('/sales', salesController.getAll);
+app.get('/sales/:id', salesController.getById);
+
+// error
 app.use(error);
 
 // não remova essa exportação, é para o avaliador funcionar
