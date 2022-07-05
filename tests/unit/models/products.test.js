@@ -73,7 +73,7 @@ describe('Products Model', () => {
     });
   });
 
-  describe('update - Altera um produto existente', () => {
+  describe('update - Altera um produto', () => {
 
     const mockTeste = {
       id: 1,
@@ -99,6 +99,15 @@ describe('Products Model', () => {
       const response = await productsModel.update(1, { name: 'Altera um Produto' });
 
       expect(response).to.include.all.keys('id', 'name');
+    });
+  });
+
+  describe('deleteProduct - Deleta um produto', () => {
+    
+    it('Verifica que não é retornado nada ao excluir um produto', async () => {
+      const response = await productsModel.deleteProduct(2);
+
+      expect(response).to.be.undefined;
     });
   });
 });

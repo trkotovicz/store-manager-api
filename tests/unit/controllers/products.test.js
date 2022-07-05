@@ -125,4 +125,31 @@ describe('Products Controller', () => {
       expect(response).to.rejectedWith(ValidationError);
     });
   });
+
+  describe('deleteProduct - Deleta um produto', () => {
+
+    it('Verifica se é retornado o status 204', async () => {
+    const req = {};
+    const res = {};
+
+    res.status = sinon.stub().returns(res);
+    res.end = sinon.stub();
+
+    req.params = { id: 2 };
+
+    sinon.stub(productsService, 'deleteProduct').resolves(true);
+    await productsController.deleteProduct(req, res);
+      
+    expect(res.status.calledWith(204)).to.be.equal(true);
+    });
+    it('É retornado um erro quando o "ID" não é encontrado', () => {
+      const req = {};
+      const res = {};
+
+      req.params = { id: 1001 };
+
+      const response = productsController.deleteProduct(req, res);
+      expect(response).to.rejectedWith(ValidationError);
+    });
+  });
 });

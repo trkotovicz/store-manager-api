@@ -93,4 +93,19 @@ describe('Products Service', () => {
       expect(response).to.equal(false);
     });
   });
+
+  describe('deleteProduct - Deleta um produto', () => {
+    
+    it('Verifica que não é retornado nada ao excluir um produto', async () => {
+      const response = await productsService.deleteProduct(2);
+
+      expect(response).to.be.false;
+    });
+
+    it('Quando é inserido dado inválido retorna "false"', async () => {
+      const response = await productsService.deleteProduct(1001);
+
+      expect(response).to.equal(false);
+    });
+  });
 });
