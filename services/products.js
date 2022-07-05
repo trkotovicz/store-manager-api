@@ -38,10 +38,18 @@ const update = async (id, name) => {
   return product;
 };
 
+const deleteProduct = async (id) => {
+  const existsId = await productsModel.getById(id);
+  if (!existsId) return false;
+
+  await productsModel.deleteProduct(id);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   validateBody,
   update,
+  deleteProduct,
 };
