@@ -30,9 +30,18 @@ const create = async ({ name }) => {
   return product;
 };
 
+const update = async (id, name) => {
+  const existsId = await productsModel.getById(id);
+  if (!existsId) return false;
+
+  const product = await productsModel.update(id, name);
+  return product;
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   validateBody,
+  update,
 };
