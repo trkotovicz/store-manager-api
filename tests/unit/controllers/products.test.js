@@ -152,4 +152,24 @@ describe('Products Controller', () => {
       expect(response).to.rejectedWith(ValidationError);
     });
   });
+
+  describe('getByName - Busca um produto pelo nome', () => {
+
+    it('Verifica se é retornado o status com valor 200 e o json com o objeto buscado', async () => {
+      const response = { id: 3, name: "Escudo do Capitão América" };
+
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.query = { q: 'Escudo' };
+
+      await productsController.getByName(req, res);
+
+      expect(res.status.calledWith(200)).to.be.equal(true);
+      expect(res.json.calledWith(response)).to.be.equal(true);
+    });
+  });
 });

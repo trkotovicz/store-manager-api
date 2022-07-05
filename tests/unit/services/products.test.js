@@ -108,4 +108,15 @@ describe('Products Service', () => {
       expect(response).to.equal(false);
     });
   });
+
+  describe('getByName - Busca um produto pelo nome', () => {
+      
+    it('Retorna um objeto com as informações do produto', async () => {
+      const response = await productsService.getByName('Escudo');
+
+      expect(response).to.be.an('object');
+      expect(response).not.to.be.empty;
+      expect(response).to.include.all.keys('id', 'name');
+    });
+  });  
 });
