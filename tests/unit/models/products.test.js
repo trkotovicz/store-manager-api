@@ -72,4 +72,33 @@ describe('Products Model', () => {
       expect(response).to.include.all.keys('id', 'name');
     });
   });
+
+  describe('update - Altera um produto existente', () => {
+
+    const mockTeste = {
+      id: 1,
+      name: 'Altera um Produto'
+    };
+
+    before(async () => {
+      const execute = {mockTeste};
+      sinon.stub(productsModel, 'update').resolves(execute)
+    });
+
+    after(async () => {
+      productsModel.update.restore
+    });
+
+    it('Retorna um objeto', async () => {
+      const response = await productsModel.update(1, { name: 'Altera um Produto' });
+
+      expect(response).to.be.an('object');
+    });
+
+    it('O objeto contem as informações: id, name', async () => {
+      const response = await productsModel.update(1, { name: 'Altera um Produto' });
+
+      expect(response).to.include.all.keys('id', 'name');
+    });
+  });
 });

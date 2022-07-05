@@ -6,6 +6,7 @@ const productsService = require('../../../services/products');
 
 const product = { id: 1, name: "Martelo de Thor" };
 const newProduct = { id: 1, name: 'Novo Produto' };
+const updatedProduct = { id: 1, name: 'Altera um produto' };
 const productNotFound = { message: 'Product not found' };
 
 describe('Products Controller', () => {
@@ -87,6 +88,39 @@ describe('Products Controller', () => {
       req.body = {};
 
       const response = productsController.create(req, res);
+
+      expect(response).to.rejectedWith(ValidationError);
+    });
+  });
+
+  describe('update - Altera um produto existente', () => {
+
+    it('Verifica se é retornado o status 201 e o json com o objeto alterado', async () => {
+      const req = {};
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub();
+
+      req.body = { name: 'Altera um produto' };
+      req.params = { id: 1 };
+
+      sinon.stub(productsService, 'update').resolves(updatedProduct);
+
+      await productsController.update(req, res);
+
+      expect(res.status.calledWith(200)).to.be.equal(true);
+      expect(res.json.calledWith(updatedProduct)).to.be.equal(true);
+    });
+
+    it('É retornado um erro quando o "ID" não é encontrado', () => {
+      const req = {};
+      const res = {};
+
+      req.body = { name: 'Altera um produto' };
+      req.params = { id: 1001 };
+
+      const response = productsController.update(req, res);
 
       expect(response).to.rejectedWith(ValidationError);
     });

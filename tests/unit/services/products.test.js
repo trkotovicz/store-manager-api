@@ -7,6 +7,7 @@ const productsService = require('../../../services/products');
 use(chaiAsPromised);
 
 const product = { id: 1, name: "Martelo de Thor" };
+const updateProduct = { name: 'Altera um produto' };
 
 describe('Products Service', () => {
   beforeEach(() => sinon.restore());
@@ -54,7 +55,7 @@ describe('Products Service', () => {
 
     it('Retorna um objeto', async () => {
       const response = await productsService.create(newProduct);
-      expect(response).to.be.a('object');
+      expect(response).to.be.an('object');
     });
 
     it('O produto é adicionado com sucesso', async () => {
@@ -70,6 +71,26 @@ describe('Products Service', () => {
 
       expect(() => productsService.validateBody(invalidData))
         .to.throws('"name" is required');
+    });
+  });
+
+  describe('update - Altera um produto existente', () => {
+    const mockTest = { id: 1, name: 'Altera um produto' };
+
+    before(async () => {
+      const execute = mockTest;
+      sinon.stub(productsModel, 'update').resolves(execute)
+    });
+    after(async () => productsModel.update.restore);
+
+    it('Retorna um objeto', async () => {
+      const response = await productsService.update(1, updateProduct);
+      expect(response).to.be.an('object');
+    });
+
+    it('Quando é inserido dado inválido retorna "false"', async () => {
+      const response = await productsService.update(1001, updateProduct);
+      expect(response).to.equal(false);
     });
   });
 });
