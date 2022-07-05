@@ -12,7 +12,9 @@ app.use(express.json());
 app.get('/', (_request, response) => {
   response.send();
 });
+
 // products
+app.get('/products/search', productsController.getByName);
 app.get('/products', productsController.getAll);
 app.get('/products/:id', productsController.getById);
 app.post('/products', productsController.create);

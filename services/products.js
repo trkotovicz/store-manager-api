@@ -45,6 +45,11 @@ const deleteProduct = async (id) => {
   await productsModel.deleteProduct(id);
 };
 
+const getByName = async (q) => {
+  const products = await productsModel.getByName(q);
+  return products;
+};
+
 module.exports = {
   getAll,
   getById,
@@ -52,4 +57,5 @@ module.exports = {
   validateBody,
   update,
   deleteProduct,
+  getByName,
 };
