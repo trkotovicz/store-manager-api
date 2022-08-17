@@ -47,17 +47,16 @@ describe('Products Service', () => {
   describe('create - Cadastra um produto novo', () => {
     const newProduct = { name: "Novo Produto" };
 
-    before(async () => {
-      const ID = 1;
-      sinon.stub(productsModel, 'create').resolves({ id: ID })
+    beforeEach(async () => {
+      sinon.stub(productsModel, 'create').resolves({ id: 4, name: "Novo Produto" })
     });
-    after(async () => productsModel.create.restore);
+    afterEach(async () => productsModel.create.reset());
 
     it('Retorna um objeto', async () => {
       const response = await productsService.create(newProduct);
       expect(response).to.be.an('object');
     });
-
+    
     it('O produto é adicionado com sucesso', async () => {
       const response = await productsService.create(newProduct);
       expect(response).to.include.all.keys('id', 'name');
@@ -77,11 +76,11 @@ describe('Products Service', () => {
   describe('update - Altera um produto existente', () => {
     const mockTest = { id: 1, name: 'Altera um produto' };
 
-    before(async () => {
+    beforeEach(async () => {
       const execute = mockTest;
       sinon.stub(productsModel, 'update').resolves(execute)
     });
-    after(async () => productsModel.update.restore);
+    afterEach(async () => productsModel.update.reset());
 
     it('Retorna um objeto', async () => {
       const response = await productsService.update(1, updateProduct);
@@ -96,6 +95,8 @@ describe('Products Service', () => {
 
   describe('deleteProduct - Deleta um produto', () => {
     
+    beforeEach(() => sinon.reset());
+
     it('Verifica que não é retornado nada ao excluir um produto', async () => {
       const response = await productsService.deleteProduct(2);
 

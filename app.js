@@ -24,6 +24,7 @@ app.delete('/products/:id', productsController.deleteProduct);
 // sales
 app.get('/sales', salesController.getAll);
 app.get('/sales/:id', salesController.getById);
+app.post('/sales', salesController.create);
 
 // error
 app.use(error);

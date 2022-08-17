@@ -51,13 +51,13 @@ describe('Products Model', () => {
       name: 'Novo Produto'
     };
 
-    before(async () => {
+    beforeEach(async () => {
       const execute = [{ insertId: 1 }];
       sinon.stub(connection, 'execute').resolves(execute)
     });
 
-    after(async () => {
-      connection.execute.restore
+    afterEach(async () => {
+      connection.execute.reset()
     });
 
     it('Retorna um objeto', async () => {
@@ -80,13 +80,13 @@ describe('Products Model', () => {
       name: 'Altera um Produto'
     };
 
-    before(async () => {
-      const execute = {mockTeste};
+    beforeEach(async () => {
+      const execute = mockTeste;
       sinon.stub(productsModel, 'update').resolves(execute)
     });
 
-    after(async () => {
-      productsModel.update.restore
+    afterEach(async () => {
+      productsModel.update.reset()
     });
 
     it('Retorna um objeto', async () => {
@@ -104,6 +104,8 @@ describe('Products Model', () => {
 
   describe('deleteProduct - Deleta um produto', () => {
     
+    beforeEach(() => sinon.reset());
+
     it('Verifica que não é retornado nada ao excluir um produto', async () => {
       const response = await productsModel.deleteProduct(2);
 
